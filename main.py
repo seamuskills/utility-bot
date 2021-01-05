@@ -146,6 +146,7 @@ async def uniconvert(ctx,char):
 async def changelog(ctx,page:int=1):
 	with open("change.txt","r") as f:
 		changes = f.readlines()
+	maxpages = int(changes[0].strip("\n"))
 	cur_page = 0
 	linenum = 0
 	pagetext = ""
@@ -159,7 +160,7 @@ async def changelog(ctx,page:int=1):
 			pagetext+=line
 	if pagetext == "":
 		pagetext = "page text could not be retrieved, perhaps the page doesn't exist?"
-	await ctx.send("page: "+str(cur_page)+"\n"+pagetext)
+	await ctx.send("page: "+str(cur_page)+"/"+str(maxpages)+"\n"+pagetext)
 
 keep_alive()
 bot.run(TOKEN)

@@ -1,5 +1,5 @@
 import discord,os,time,json,random
-from test import keep_alive
+from keepalive import keep_alive
 from discord.ext import commands
 TOKEN = os.getenv("BOT_TOKEN")
 

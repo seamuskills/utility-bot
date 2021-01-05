@@ -1,0 +1,17 @@
+{
+	"how many milk buckets are required to make a cake?":{"A: 1":false,"B: 2": false, "C: 3":true,"D: 4":false},
+	"Can creepers climb latters?":{"A: yes":true,"B: no":false,"C: no idea":false,"D: maybe":false},
+	"which one of these can be obtained from an enchanting table?":{"A: Mending":false,"B: Luck of the sea":true,"C: curse of vanishing":false,"Frost Walker":false},
+	"how many shulker shells are required to make a shulker box?":{"A: 1":false,"B: 2":true, "C: 3":false,"D: 4":false},
+	"what is the area of a chunk":{"A: 16 squared":true,"B: 256":true,"c: 1024":false,"32 squared":false},
+	"how much durability does a golden pickaxe have?":{"a:10":false,"B: 20":false,"C: 46":false,"D: 32":true},
+	"what tools can netherite ingots be applied to?":{"A: Diamond":true,"B: iron+":false,"C: All of them":false,"D: stone+":false},
+	"Does the enchantment table say anything in it's language?":{"A: it says all enchantments even the secondary one you might get!":false,"B: no, its jiberish":true,"C: it shows the same things as when you hover over it.":false,"D: no, its not even a language":false},
+	"what is the hardness of Netherrack?":{"A: 0.4":true,"B: 1":false,"C: 2":false,"D: 0.6":false},
+	"What was the impulse command blocks id before the flattening?":{"A: 210":false,"B: 211":false,"C: 256":false,"D: 137":true},
+	"what character do command blocks use in java edition when using /say as their username?":{"A: #":false,"B:@":true,"C:!":false,"D: none of the other choices":false},
+	"charged creepers can do over 100hp on hard:":{"A:false":false,"B:true":true,"C:nil":false,"D:nil":false},
+	"the height of a wolf's tail matters":{"A: yes, its how hungry they are":false,"B: yes its their current health value":true,"C: its how likely they are to fallow you":false,"D: it doesn't matter, its just for looks.":false},
+	"wolves can be bread":{"A: tamed and wild":false,"B: tamed":true,"C: they cant":false,"D: only in certain situations":false},
+	"how many enderpearls are in a stack?":{"A: 64":false,"B: 12":false,"C:16":true,"D: 1 (pearls are unstackable)":false}
+}

@@ -1,0 +1,8 @@
+-added commands
+	-unicodeint
+	-unicodehex
+	-uniconvert
+	-changelog
+-removed commands
+	-math(aka eval)
+		-security risks

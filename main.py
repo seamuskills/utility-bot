@@ -140,7 +140,7 @@ async def unicodehex(ctx,hexnum):
 @bot.command(aliases=["uconv"],description="shows the ordinal unicode representation of <char>")
 async def uniconvert(ctx,char):
 	char = char[0]
-	await ctx.send(char+" ➔ "+str(ord(char)))
+	await ctx.send(char+" ➔ "+str(ord(char))+" (hex: "+str(hex(ord(char))).strip("0x")+")")
 
 @bot.command(aliases=["changed"])
 async def changelog(ctx):

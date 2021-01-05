@@ -1,3 +1,13 @@
+###
+1.1
+-added commands
+	-none
+-removed commands
+	-none
+-additional notes
+	-added pages and versions to the changelog
+###
+1.0
 -added commands
 	-unicodeint
 	-unicodehex

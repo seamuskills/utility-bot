@@ -143,9 +143,23 @@ async def uniconvert(ctx,char):
 	await ctx.send(char+" ➔ "+str(ord(char))+" (hex: "+str(hex(ord(char))).strip("0x")+")")
 
 @bot.command(aliases=["changed"])
-async def changelog(ctx):
+async def changelog(ctx,page:int=1):
 	with open("change.txt","r") as f:
-		await ctx.send(f.read())
+		changes = f.readlines()
+	cur_page = 0
+	linenum = 0
+	pagetext = ""
+	for line in changes:
+		if line == "###\n":
+			if cur_page == page:
+				break
+			cur_page += 1
+		linenum += 1
+		if cur_page == page and line != "###\n":
+			pagetext+=line
+	if pagetext == "":
+		pagetext = "page text could not be retrieved, perhaps the page doesn't exist?"
+	await ctx.send("page: "+str(cur_page)+"\n"+pagetext)
 
 keep_alive()
 bot.run(TOKEN)

@@ -6,3 +6,6 @@
 -removed commands
 	-math(aka eval)
 		-security risks
+-extra notes
+	-made bot github: https://github.com/seamuskills/utility-bot
+	-!math removed for security reasons, may come back in the future if a more secure method can be found.

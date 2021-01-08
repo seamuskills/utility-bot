@@ -175,7 +175,7 @@ async def sarcasm(ctx,*,message):
 
 @bot.command()
 async def codetext(ctx,*,code):
-	await ctx.send(ctx.author.name+":\n```"+code+"```")
+	await ctx.send(ctx.author.name+":\n```\n"+code+"\n```")
 	await ctx.message.delete()
 
 @bot.command(hidden=True)
@@ -190,6 +190,31 @@ async def sudo(ctx,username,command,*,message):
 			newmsg += i+" "
 		await ctx.send(username+":\n"+newmsg)
 	await ctx.message.delete()
+
+@bot.command()
+async def emoji(ctx,*,message):
+	msg = ctx.author.name+":\n"+message
+	newmsg=""
+	for i in msg:
+		if (i >= "a" and i<="z") or (i >="A" and i<="Z"): 
+			newmsg += ":regional_indicator_"+i.lower()+":"
+		elif i == "!":
+			newmsg += ":exclamation:"
+		elif i == "?":
+			if random.randint(1,100) == 1:
+				newmsg += ":grey_question"
+			else:
+				newmsg += ":question:"
+		elif i == ".":
+			newmsg += ":blue_circle:"
+		else:
+			newmsg += i
+	await ctx.send(newmsg)
+	await ctx.message.delete()
+
+@bot.command()
+async def ping(ctx):
+	await ctx.send("pong at "+str(time.time()))
 
 keep_alive()
 bot.run(TOKEN)

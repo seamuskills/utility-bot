@@ -1,13 +1,23 @@
-3
+4
+###
+1.2.1
+-added commands
+	-ping
+-removed commands
+	-none
+-additional notes
+	-the number after "pong at" is time.time() (seconds since 00:00:00 UTC on 1 January 1970)
 ###
 1.2
 -added commands
 	-sarcasm
 	-codetext
+	-emoji
 -removed commands
 	-none
 -additional notes
 	-sarcasm just uppercases every other letter and codetext adds the ``` on both sides of you test
+	-emoji doesnt cover any characters out of the alphabet, it will still include it in the message but there may be no emoji for it so it will just be the raw character, the only exceptions are ! ? .
 ###
 1.1
 -added commands

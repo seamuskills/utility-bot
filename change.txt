@@ -1,4 +1,13 @@
-2
+3
+###
+1.2
+-added commands
+	-sarcasm
+	-codetext
+-removed commands
+	-none
+-additional notes
+	-sarcasm just uppercases every other letter and codetext adds the ``` on both sides of you test
 ###
 1.1
 -added commands

@@ -22,7 +22,7 @@ async def suddenlypineapples(ctx):
 
 @bot.command(aliases=["bt"],description="puts *** around <message> so it will be bold and italic")
 async def boldtilt(ctx,*,message):
-	await ctx.send("***"+message+"***")
+	await ctx.send(ctx.author.name+":\n***"+message+"***")
 	await ctx.message.delete()
 
 @bot.command()
@@ -161,6 +161,35 @@ async def changelog(ctx,page:int=1):
 	if pagetext == "":
 		pagetext = "page text could not be retrieved, perhaps the page doesn't exist?"
 	await ctx.send("page: "+str(cur_page)+"/"+str(maxpages)+"\n"+pagetext)
+
+@bot.command(aliases=["sarc","caps"])
+async def sarcasm(ctx,*,message):
+	newmsg = ""
+	for i in range(len(message)):
+		if i % 2 == 0:
+			newmsg += message[i].lower()
+		else:
+			newmsg += message[i].upper()
+	await ctx.send(newmsg)
+	await ctx.message.delete()
+
+@bot.command()
+async def codetext(ctx,*,code):
+	await ctx.send(ctx.author.name+":\n```"+code+"```")
+	await ctx.message.delete()
+
+@bot.command(hidden=True)
+async def sudo(ctx,username,command,*,message):
+	if command == "none":
+		await ctx.send(username+":\n"+message)
+	if command == "bt":
+		await ctx.send(username+":\n***"+message+"***")
+	if command == "space":
+		newmsg = ""
+		for i in message:
+			newmsg += i+" "
+		await ctx.send(username+":\n"+newmsg)
+	await ctx.message.delete()
 
 keep_alive()
 bot.run(TOKEN)

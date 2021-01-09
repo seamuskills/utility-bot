@@ -1,4 +1,9 @@
-4
+5
+###
+1.2.2
+-patch
+	-ping now displays bot latency in ms rounded to 2 decimal places.
+	-added descriptions of commands for the help command to use
 ###
 1.2.1
 -added commands

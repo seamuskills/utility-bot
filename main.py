@@ -142,7 +142,7 @@ async def uniconvert(ctx,char):
 	char = char[0]
 	await ctx.send(char+" ➔ "+str(ord(char))+" (hex: "+str(hex(ord(char))).strip("0x")+")")
 
-@bot.command(aliases=["changed"])
+@bot.command(aliases=["changed"],description="look at whats changed, the pages are reverse of updates, so page 1 is the highest version number (the latest update)")
 async def changelog(ctx,page:int=1):
 	with open("change.txt","r") as f:
 		changes = f.readlines()
@@ -162,7 +162,7 @@ async def changelog(ctx,page:int=1):
 		pagetext = "page text could not be retrieved, perhaps the page doesn't exist?"
 	await ctx.send("page: "+str(cur_page)+"/"+str(maxpages)+"\n"+pagetext)
 
-@bot.command(aliases=["sarc","caps"])
+@bot.command(aliases=["sarc","caps"],description="makes every other letter capitol and every odd letter lowercase for SaRcAsTiC TeXt")
 async def sarcasm(ctx,*,message):
 	newmsg = ""
 	for i in range(len(message)):
@@ -173,12 +173,12 @@ async def sarcasm(ctx,*,message):
 	await ctx.send(newmsg)
 	await ctx.message.delete()
 
-@bot.command()
+@bot.command(description="puts 3 ` around your text")
 async def codetext(ctx,*,code):
 	await ctx.send(ctx.author.name+":\n```\n"+code+"\n```")
 	await ctx.message.delete()
 
-@bot.command(hidden=True)
+@bot.command(hidden=True,description="your probably not supposed to be seeing this...")
 async def sudo(ctx,username,command,*,message):
 	if command == "none":
 		await ctx.send(username+":\n"+message)
@@ -191,7 +191,7 @@ async def sudo(ctx,username,command,*,message):
 		await ctx.send(username+":\n"+newmsg)
 	await ctx.message.delete()
 
-@bot.command()
+@bot.command(description="Uses the 'regional_indicator' emoji's to turn your text into a string of emojis")
 async def emoji(ctx,*,message):
 	msg = ctx.author.name+":\n"+message
 	newmsg=""
@@ -212,9 +212,9 @@ async def emoji(ctx,*,message):
 	await ctx.send(newmsg)
 	await ctx.message.delete()
 
-@bot.command()
+@bot.command(description="returns pong at <time since the unix epoch> with <ping>ms ping")
 async def ping(ctx):
-	await ctx.send("pong at "+str(time.time()))
+	await ctx.send("pong at "+str(time.time())+" with "+str(round(bot.latency*1000,2))+"ms ping")
 
 keep_alive()
 bot.run(TOKEN)

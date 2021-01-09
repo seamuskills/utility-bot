@@ -1,11 +1,12 @@
 import discord,os,time,json,random
 from keepalive import keep_alive
 from discord.ext import commands
+from pretty_help import PrettyHelp
 TOKEN = os.getenv("BOT_TOKEN")
 
 #invite link for bot: https://discord.com/oauth2/authorize?client_id=781009158399852557&scope=bot
 
-bot = commands.Bot(command_prefix='!')
+bot = commands.Bot(command_prefix='!',help_command=PrettyHelp(color=0xffff00))
 
 @bot.command(description="puts spaces between the characters in <message>")
 async def space(ctx,*,message):

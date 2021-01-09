@@ -4,10 +4,13 @@
 -added commands
 	-feedback
 		-for bot or the spla2d server
+	-spla2d
+	-botinfo
 -removed commands
 	-none
 -additional notes
 	-if you are using the bot outside of the spla2d server, don't use this for server feedback, it does not go to the discord guild owner. It goes to the developer of spla2d (who is also the developer of this bot)
+	-the spla2d and botinfo commands just give various links
 ###
 1.2.2
 -patch

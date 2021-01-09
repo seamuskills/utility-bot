@@ -226,5 +226,13 @@ async def feedback(ctx,botsuggestion:bool,*,message):
 	except Exception as e:
 		await ctx.send("something went wrong:\n```"+str(e)+"```")
 
+@bot.command(aliases=["s2d"],description="info about spla2d")
+async def spla2d(ctx):
+	ctx.send("github:https://github.com/seamuskills/spla2d\nitch(download):https://seamuskills.itch.io/splat2d\ndiscord:https://discord.gg/GeJXDrqUSn")
+
+@bot.command(aliases=["info"],description="info on the bot")
+async def botinfo(ctx):
+	await ctx.send("bot github:https://github.com/seamuskills/utility-bot\nbot invite:https://discord.com/oauth2/authorize?client_id=781009158399852557&scope=bot\n it is reccomended that you give the bot manage message permissions so commands like !space only show the result and not the original message")
+
 keep_alive()
 bot.run(TOKEN)

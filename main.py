@@ -232,7 +232,7 @@ async def spla2d(ctx):
 
 @bot.command(aliases=["info"],description="info on the bot")
 async def botinfo(ctx):
-	await ctx.send("bot github:https://github.com/seamuskills/utility-bot\nbot invite:https://discord.com/oauth2/authorize?client_id=781009158399852557&scope=bot\n it is reccomended that you give the bot manage message permissions so commands like !space only show the result and not the original message")
+	await ctx.send("bot github:https://github.com/seamuskills/utility-bot\nbot invite:https://discord.com/oauth2/authorize?client_id=781009158399852557&scope=bot\n it is reccomended that you give the bot manage message permissions so commands like !space only show the result and not the original message\ncode(repl):https://repl.it/@SeamusDonahue/utility-bot#main.py")
 
 keep_alive()
 bot.run(TOKEN)

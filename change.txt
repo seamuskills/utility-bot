@@ -7,7 +7,7 @@
 -removed commands
 	-none
 -additional notes
-	-if you are using the bot outside of the spla2d server, don't use this for server feedback, it does not go to the discord guild owner.
+	-if you are using the bot outside of the spla2d server, don't use this for server feedback, it does not go to the discord guild owner. It goes to the developer of spla2d (who is also the developer of this bot)
 ###
 1.2.2
 -patch

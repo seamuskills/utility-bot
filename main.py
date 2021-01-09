@@ -217,5 +217,14 @@ async def emoji(ctx,*,message):
 async def ping(ctx):
 	await ctx.send("pong at "+str(time.time())+" with "+str(round(bot.latency*1000,2))+"ms ping")
 
+@bot.command(aliases=["fb","suggest"],description="Send feedback to the owner of this bot! make sure to use true or false for <botsuggestion>, it specifies whether you suggestion is about this bot.")
+async def feedback(ctx,botsuggestion:bool,*,message):
+	try:
+		seamuskills = bot.get_user(382579495510605828)
+		await seamuskills.send("bot feedback:"+str(botsuggestion)+"\n"+message)
+		await ctx.send("feedback sent!✅")
+	except Exception as e:
+		await ctx.send("something went wrong:\n```"+str(e)+"```")
+
 keep_alive()
 bot.run(TOKEN)

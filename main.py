@@ -2,13 +2,38 @@ import discord,os,time,json,random
 from keepalive import keep_alive
 from discord.ext import commands
 from pretty_help import PrettyHelp
+from replit import db
+from discord.ext.commands import has_permissions
+import asyncio
 TOKEN = os.getenv("BOT_TOKEN")
 
 #invite link for bot: https://discord.com/oauth2/authorize?client_id=781009158399852557&scope=bot
 
-bot = commands.Bot(command_prefix='!',help_command=PrettyHelp(color=0xffff00))
+async def determine_prefix(client, message):
+    guild = message.guild
+    #Only allow custom prefixs in guild
+    if guild:
+        if guild.id in db:
+            print(db[guild.id])
+            return db[guild.id]
+        else:
+            return "!"
+    else:
+        return "!"
 
-@bot.command(description="puts spaces between the characters in <message>")
+bot = commands.Bot(command_prefix=determine_prefix,help_command=PrettyHelp(color=0xffff00))
+
+@bot.command()
+@has_permissions(administrator=True) 
+async def setprefix(ctx, prefix):
+    if not isinstance(ctx.channel, discord.channel.DMChannel):
+        #You'd obviously need to do some error checking here
+        #All I'm doing here is if prefixes is not passed then
+        #set it to default
+        db[ctx.guild.id] = prefix
+        await ctx.send("Prefix set!")
+
+@bot.command(help="puts spaces between the characters in <message>")
 async def space(ctx,*,message):
 	newmsg = ctx.message.author.name +":\n"
 	msg = message
@@ -17,26 +42,26 @@ async def space(ctx,*,message):
 	await ctx.channel.send(content=newmsg)
 	await ctx.message.delete()
 
-@bot.command(aliases=["sp"],description="sends pineapples your way ;)")
+@bot.command(aliases=["sp"],help="sends pineapples your way ;)")
 async def suddenlypineapples(ctx):
 	await ctx.send(":pineapple::pineapple::pineapple:")
 
-@bot.command(aliases=["bt"],description="puts *** around <message> so it will be bold and italic")
+@bot.command(aliases=["bt"],help="puts *** around <message> so it will be bold and italic")
 async def boldtilt(ctx,*,message):
 	await ctx.send(ctx.author.name+":\n***"+message+"***")
 	await ctx.message.delete()
 
 @bot.command()
-async def nya(ctx,description="nya"):
+async def nya(ctx,help="nya"):
 	await ctx.send(ctx.author.name+":\nhttps://www.youtube.com/watch?v=QH2-TGUlwu4&list=PLbRUzU8R_JMJ68MGQ9PJHYS4TxD29jwVu")
 	await ctx.message.delete()
 
-@bot.command(aliases=["rickroll","roll"],description="Never gonna give you up!")
+@bot.command(aliases=["rickroll","roll"],help="Never gonna give you up!")
 async def rick(ctx):
 	await ctx.send(ctx.author.name+":\nhttps://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstleyVEVO")
 	await ctx.message.delete()
 
-@bot.command(aliases=["ct"],description="started a countdown for arg1 seconds and pings you if arg2 is true (default value is true)")
+@bot.command(aliases=["ct"],help="started a countdown for arg1 seconds and pings you if arg2 is true (default value is true)")
 async def countdown(ctx,seconds : int,ping:bool=True):
 	seconds = seconds
 	seconds = min(200,max(0,seconds))
@@ -45,14 +70,14 @@ async def countdown(ctx,seconds : int,ping:bool=True):
 	while seconds > 0:
 		seconds -= 1
 		await cmsg.edit(content=ctx.author.name+"'s countdown: "+str(seconds))
-		time.sleep(1)
+		asyncio.sleep(1)
 	if ping:
 		await ctx.send("countdown done "+ctx.author.mention)
 	else:
 		await ctx.send("countdown done "+ctx.author.name)
 
 @bot.command()
-async def quiz(ctx,description="tests your minecraft knowledge"):
+async def quiz(ctx,help="tests your minecraft knowledge"):
 	with open("quiz.json","r") as f:
 		quiz = json.loads(f.read())
 	question,answers = random.choice(list(quiz.items()))
@@ -86,7 +111,7 @@ async def quiz(ctx,description="tests your minecraft knowledge"):
 			if answers[i] == True: answer = i; break
 		await ctx.send("sorry, the answer was ||"+str(answer)+"||")
 
-@bot.command(description="turns your text into standard galactic alphabet from commander keen, also seen in the minecraft enchantment table!")
+@bot.command(help="turns your text into standard galactic alphabet from commander keen, also seen in the minecraft enchantment table!")
 async def sga(ctx,*,message):
 	splitmsg = message.split()
 	msg = " ".join(splitmsg)
@@ -101,7 +126,7 @@ async def sga(ctx,*,message):
 	await ctx.send(newmsg)
 	await ctx.message.delete()
 
-@bot.command(aliases = ["bw","back"],description="Returns <message> but with the position of each character opposite of its current position (in a 100 character message, character 51 because character 49) making the message return backwards")
+@bot.command(aliases = ["bw","back"],help="Returns <message> but with the position of each character opposite of its current position (in a 100 character message, character 51 because character 49) making the message return backwards")
 async def backward(ctx,*,message):
 	msg = message
 	newmsg = ""
@@ -110,13 +135,13 @@ async def backward(ctx,*,message):
 	await ctx.send(ctx.author.name+":\n"+newmsg)
 	await ctx.message.delete()
 
-@bot.command(aliases=["em","e"],description="sends <message> back in embedded form!")
+@bot.command(aliases=["em","e"],help="sends <message> back in embedded form!")
 async def embed(ctx,*,message):
-	emb = discord.Embed(title=ctx.author.name+":",description=message)
+	emb = discord.Embed(title=ctx.author.name+":",help=message)
 	await ctx.send(embed=emb)
 	await ctx.message.delete()
 
-@bot.command(aliases=["cem","ce"],description="Does the same as !embed but uses <color> as the color for the embed (in hex format example: ffff00 is yellow).")
+@bot.command(aliases=["cem","ce"],help="Does the same as !embed but uses <color> as the color for the embed (in hex format example: ffff00 is yellow).")
 async def cembed(ctx,color,*,message):
 	if "#" in color:
 		newc = ""
@@ -124,26 +149,26 @@ async def cembed(ctx,color,*,message):
 			if i != "#":newc += i
 		color = newc
 	color = int(color,16)
-	emb = discord.Embed(title=ctx.author.name+":\n",description=message,color=color)
+	emb = discord.Embed(title=ctx.author.name+":\n",help=message,color=color)
 	await ctx.send(embed=emb)
 	await ctx.message.delete()
 
-@bot.command(aliases=["uint"],description="encodes <number> into utf-8 (unicode) using an integer")
+@bot.command(aliases=["uint"],help="encodes <number> into utf-8 (unicode) using an integer")
 async def unicodeint(ctx,number:int):
 	await ctx.send(str(number)+" ➔ "+chr(number))
 
-@bot.command(aliases=["uhex"],description="encodes <hexnum> into utf-8 (unicode) by using a hex code")
+@bot.command(aliases=["uhex"],help="encodes <hexnum> into utf-8 (unicode) by using a hex code")
 async def unicodehex(ctx,hexnum):
 	oghex = hexnum
 	hexnum = int(hexnum,16);hexnum = int(hexnum)
 	await ctx.send(oghex+" ➔ "+chr(hexnum))
 
-@bot.command(aliases=["uconv"],description="shows the ordinal unicode representation of <char>")
+@bot.command(aliases=["uconv"],help="shows the ordinal unicode representation of <char>")
 async def uniconvert(ctx,char):
 	char = char[0]
 	await ctx.send(char+" ➔ "+str(ord(char))+" (hex: "+str(hex(ord(char))).strip("0x")+")")
 
-@bot.command(aliases=["changed"],description="look at whats changed, the pages are reverse of updates, so page 1 is the highest version number (the latest update)")
+@bot.command(aliases=["changed"],help="look at whats changed, the pages are reverse of updates, so page 1 is the highest version number (the latest update)")
 async def changelog(ctx,page:int=1):
 	with open("change.txt","r") as f:
 		changes = f.readlines()
@@ -163,7 +188,7 @@ async def changelog(ctx,page:int=1):
 		pagetext = "page text could not be retrieved, perhaps the page doesn't exist?"
 	await ctx.send("page: "+str(cur_page)+"/"+str(maxpages)+"\n"+pagetext)
 
-@bot.command(aliases=["sarc","caps"],description="makes every other letter capitol and every odd letter lowercase for SaRcAsTiC TeXt")
+@bot.command(aliases=["sarc","caps"],help="makes every other letter capitol and every odd letter lowercase for SaRcAsTiC TeXt")
 async def sarcasm(ctx,*,message):
 	newmsg = ""
 	for i in range(len(message)):
@@ -174,12 +199,12 @@ async def sarcasm(ctx,*,message):
 	await ctx.send(newmsg)
 	await ctx.message.delete()
 
-@bot.command(description="puts 3 ` around your text")
+@bot.command(help="puts 3 ` around your text")
 async def codetext(ctx,*,code):
 	await ctx.send(ctx.author.name+":\n```\n"+code+"\n```")
 	await ctx.message.delete()
 
-@bot.command(hidden=True,description="your probably not supposed to be seeing this...")
+@bot.command(hidden=True,help="your probably not supposed to be seeing this...")
 async def sudo(ctx,username,command,*,message):
 	if command == "none":
 		await ctx.send(username+":\n"+message)
@@ -192,7 +217,7 @@ async def sudo(ctx,username,command,*,message):
 		await ctx.send(username+":\n"+newmsg)
 	await ctx.message.delete()
 
-@bot.command(description="Uses the 'regional_indicator' emoji's to turn your text into a string of emojis")
+@bot.command(help="Uses the 'regional_indicator' emoji's to turn your text into a string of emojis")
 async def emoji(ctx,*,message):
 	msg = ctx.author.name+":\n"+message
 	newmsg=""
@@ -213,11 +238,11 @@ async def emoji(ctx,*,message):
 	await ctx.send(newmsg)
 	await ctx.message.delete()
 
-@bot.command(description="returns pong at <time since the unix epoch> with <ping>ms ping")
+@bot.command(help="returns pong at <time since the unix epoch> with <ping>ms ping")
 async def ping(ctx):
 	await ctx.send("pong at "+str(time.time())+" with "+str(round(bot.latency*1000,2))+"ms ping")
 
-@bot.command(aliases=["fb","suggest"],description="Send feedback to the owner of this bot! make sure to use true or false for <botsuggestion>, it specifies whether you suggestion is about this bot.")
+@bot.command(aliases=["fb","suggest"],help="Send feedback to the owner of this bot! make sure to use true or false for <botsuggestion>, it specifies whether you suggestion is about this bot.")
 async def feedback(ctx,botsuggestion:bool,*,message):
 	try:
 		seamuskills = bot.get_user(382579495510605828)
@@ -226,11 +251,11 @@ async def feedback(ctx,botsuggestion:bool,*,message):
 	except Exception as e:
 		await ctx.send("something went wrong:\n```"+str(e)+"```")
 
-@bot.command(aliases=["s2d"],description="info about spla2d")
+@bot.command(aliases=["s2d"],help="info about spla2d")
 async def spla2d(ctx):
 	ctx.send("github:https://github.com/seamuskills/spla2d\nitch(download):https://seamuskills.itch.io/splat2d\ndiscord:https://discord.gg/GeJXDrqUSn")
 
-@bot.command(aliases=["info"],description="info on the bot")
+@bot.command(aliases=["info"],help="info on the bot")
 async def botinfo(ctx):
 	await ctx.send("bot github:https://github.com/seamuskills/utility-bot\nbot invite:https://discord.com/oauth2/authorize?client_id=781009158399852557&scope=bot\n it is reccomended that you give the bot manage message permissions so commands like !space only show the result and not the original message\ncode(repl):https://repl.it/@SeamusDonahue/utility-bot#main.py")
 

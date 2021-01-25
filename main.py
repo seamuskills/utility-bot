@@ -70,7 +70,7 @@ async def countdown(ctx,seconds : int,ping:bool=True):
 	while seconds > 0:
 		seconds -= 1
 		await cmsg.edit(content=ctx.author.name+"'s countdown: "+str(seconds))
-		asyncio.sleep(1)
+		await asyncio.sleep(1)
 	if ping:
 		await ctx.send("countdown done "+ctx.author.mention)
 	else:

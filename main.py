@@ -253,7 +253,7 @@ async def feedback(ctx,botsuggestion:bool,*,message):
 
 @bot.command(aliases=["s2d"],help="info about spla2d")
 async def spla2d(ctx):
-	ctx.send("github:https://github.com/seamuskills/spla2d\nitch(download):https://seamuskills.itch.io/splat2d\ndiscord:https://discord.gg/GeJXDrqUSn")
+	await ctx.send("github:https://github.com/seamuskills/spla2d\nitch(download):https://seamuskills.itch.io/splat2d\ndiscord:https://discord.gg/GeJXDrqUSn")
 
 @bot.command(aliases=["info"],help="info on the bot")
 async def botinfo(ctx):

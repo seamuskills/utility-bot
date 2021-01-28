@@ -13,5 +13,7 @@
 	"charged creepers can do over 100hp on hard:":{"A:false":false,"B:true":true,"C:nil":false,"D:nil":false},
 	"the height of a wolf's tail matters":{"A: yes, its how hungry they are":false,"B: yes its their current health value":true,"C: its how likely they are to fallow you":false,"D: it doesn't matter, its just for looks.":false},
 	"wolves can be bread":{"A: tamed and wild":false,"B: tamed":true,"C: they cant":false,"D: only in certain situations":false},
-	"how many enderpearls are in a stack?":{"A: 64":false,"B: 12":false,"C:16":true,"D: 1 (pearls are unstackable)":false}
+	"how many enderpearls are in a stack?":{"A: 64":false,"B: 12":false,"C:16":true,"D: 1 (pearls are unstackable)":false},
+	"how long (on java) does obsidian take to break?":{"A: 10 seconds":true,"B: 8 seconds":false,"C: 12 seconds":false,"D: 5 seconds":false},
+	"In the old versions of bedrock, there was nether items but portals didn't exist. What replaced it?":{"A: Nether items were not obtainable in survival":false,"Through a 'nether reactor core'":true,"Nether portals always existed dummy!":false,"an alternate portal to the one we know today":false}
 }

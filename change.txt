@@ -1,4 +1,18 @@
-6
+8
+###
+1.4.1
+-added
+	-fromsga
+-notes
+	-special thanks to CoolCoderSJ on repl.it for helping me make fromsga
+###
+1.4
+-added
+	-questions for !quiz
+	-sq
+	-sqrt
+-notes
+	-fixed some bugs...
 ###
 1.3
 -added commands

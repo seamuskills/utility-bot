@@ -1,10 +1,10 @@
-import discord,os,time,json,random
+import discord,os,time,json,random,asyncio
 from keepalive import keep_alive
 from discord.ext import commands
 from pretty_help import PrettyHelp
 from replit import db
 from discord.ext.commands import has_permissions
-import asyncio
+
 TOKEN = os.getenv("BOT_TOKEN")
 
 #invite link for bot: https://discord.com/oauth2/authorize?client_id=781009158399852557&scope=bot
@@ -126,6 +126,14 @@ async def sga(ctx,*,message):
 	await ctx.send(newmsg)
 	await ctx.message.delete()
 
+@bot.command(help="turns sga text into english. for what sga is see !sga")
+async def fromsga(ctx,*,sgatext):
+	sga = ['ᔑ', 'ʖ', 'ᓵ', '↸', 'ᒷ', '⎓', '⊣', '⍑', '╎', '⋮', 'ꖌ', 'ꖎ', 'ᒲ', 'リ', '𝙹', '!¡', 'ᑑ', '∷', 'ᓭ', 'ℸ ̣ ', '⚍', '⍊', '∴', ' ̇/', '||', '⨅']
+	english = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
+	for letter in range(len(sga)):
+		sgatext = sgatext.replace(sga[letter],english[letter])
+	await ctx.send(sgatext)
+
 @bot.command(aliases = ["bw","back"],help="Returns <message> but with the position of each character opposite of its current position (in a 100 character message, character 51 because character 49) making the message return backwards")
 async def backward(ctx,*,message):
 	msg = message
@@ -137,7 +145,7 @@ async def backward(ctx,*,message):
 
 @bot.command(aliases=["em","e"],help="sends <message> back in embedded form!")
 async def embed(ctx,*,message):
-	emb = discord.Embed(title=ctx.author.name+":",help=message)
+	emb = discord.Embed(title=ctx.author.name+":",description=message)
 	await ctx.send(embed=emb)
 	await ctx.message.delete()
 
@@ -149,7 +157,7 @@ async def cembed(ctx,color,*,message):
 			if i != "#":newc += i
 		color = newc
 	color = int(color,16)
-	emb = discord.Embed(title=ctx.author.name+":\n",help=message,color=color)
+	emb = discord.Embed(title=ctx.author.name+":\n",description=message,color=color)
 	await ctx.send(embed=emb)
 	await ctx.message.delete()
 
@@ -163,7 +171,7 @@ async def unicodehex(ctx,hexnum):
 	hexnum = int(hexnum,16);hexnum = int(hexnum)
 	await ctx.send(oghex+" ➔ "+chr(hexnum))
 
-@bot.command(aliases=["uconv"],help="shows the ordinal unicode representation of <char>")
+@bot.command(aliases=["uconv"],help="shows the ordinal and unicode representation of <char>")
 async def uniconvert(ctx,char):
 	char = char[0]
 	await ctx.send(char+" ➔ "+str(ord(char))+" (hex: "+str(hex(ord(char))).strip("0x")+")")
@@ -258,6 +266,21 @@ async def spla2d(ctx):
 @bot.command(aliases=["info"],help="info on the bot")
 async def botinfo(ctx):
 	await ctx.send("bot github:https://github.com/seamuskills/utility-bot\nbot invite:https://discord.com/oauth2/authorize?client_id=781009158399852557&scope=bot\n it is reccomended that you give the bot manage message permissions so commands like !space only show the result and not the original message\ncode(repl):https://repl.it/@SeamusDonahue/utility-bot#main.py")
+
+@bot.command(aliases=["squareRoot","square_root"],help="square root of x using y (optional) as the power")
+async def sqrt(ctx,x:float,y:float=2):
+	await ctx.send(x**(1/y))
+
+@bot.command(aliases=["square","squared"],help="squares x using y (optional) as the power")
+async def sq(ctx,x:float,y:float=2):
+	await ctx.send(x**y)
+
+@bot.command(aliases=["div","quotient"],help="Will return x/y and if i=True, will return a truncated value")
+async def divide(ctx,x:float,y:float,i:bool=False):
+	if not i:
+		await ctx.send(str(x/y))
+	else:
+		await ctx.send(str(x//y))
 
 keep_alive()
 bot.run(TOKEN)

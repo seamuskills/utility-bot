@@ -1,4 +1,12 @@
-8
+9
+###
+1.5.0
+-added
+	-leaderboard
+	-checkscore
+	-score for !quiz
+-notes
+	-again thanks CoolCoderSJ for the code to sort the leaderboard and this time to "selectthegang" on discord for how to display users names from their id
 ###
 1.4.1
 -added

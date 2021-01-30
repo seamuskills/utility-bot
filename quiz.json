@@ -15,5 +15,7 @@
 	"wolves can be bread":{"A: tamed and wild":false,"B: tamed":true,"C: they cant":false,"D: only in certain situations":false},
 	"how many enderpearls are in a stack?":{"A: 64":false,"B: 12":false,"C:16":true,"D: 1 (pearls are unstackable)":false},
 	"how long (on java) does obsidian take to break?":{"A: 10 seconds":true,"B: 8 seconds":false,"C: 12 seconds":false,"D: 5 seconds":false},
-	"In the old versions of bedrock, there was nether items but portals didn't exist. What replaced it?":{"A: Nether items were not obtainable in survival":false,"Through a 'nether reactor core'":true,"Nether portals always existed dummy!":false,"an alternate portal to the one we know today":false}
+	"In the old versions of bedrock, there was nether items but portals didn't exist. What replaced it?":{"A: Nether items were not obtainable in survival":false,"Through a 'nether reactor core'":true,"Nether portals always existed dummy!":false,"an alternate portal to the one we know today":false},
+	"in bedrock edition, how are sheilds used?":{"A: shields don't exist in bedrock":false,"B: sneaking":true,"C:Shields are automatic":false,"D: idk (dont pick this)":false},
+	"In minecraft 1.16 what did the old nether biome get renamed to?":{"A: its still called 'hell'":false,"B: it was removed":false,"C:'nether wastelands'":false,"D: 'nether wastes'":true}
 }

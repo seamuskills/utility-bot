@@ -80,6 +80,10 @@ async def countdown(ctx,seconds : int,ping:bool=True):
 async def quiz(ctx,help="tests your minecraft knowledge"):
 	with open("quiz.json","r") as f:
 		quiz = json.loads(f.read())
+	with open("scores.json","r") as f:
+		scores = json.loads(f.read())
+	if not str(ctx.author.id) in scores:
+		scores[str(ctx.author.id)] = {"score":0,"questions":[]}
 	question,answers = random.choice(list(quiz.items()))
 	await ctx.send(question)
 	answermsg = ""
@@ -105,11 +109,19 @@ async def quiz(ctx,help="tests your minecraft knowledge"):
 		if not reaction in ["🇦","🇧","🇨","🇩"]: await ctx.send("invalid"); a = ""
 	if answers[list(answers.keys())[a]] == True:
 		await ctx.send("correct")
+		if question in scores[str(ctx.author.id)]["questions"]:
+			scores[str(ctx.author.id)]["score"] += 10
+		else:
+			scores[str(ctx.author.id)]["score"] += 25
+			scores[str(ctx.author.id)]["questions"].append(question)
+		await ctx.send("your new score is "+str(scores[str(ctx.author.id)]["score"]))
 	else:
 		answer = 0
 		for i in answers:
 			if answers[i] == True: answer = i; break
-		await ctx.send("sorry, the answer was ||"+str(answer)+"||")
+		await ctx.send("sorry, better luck next time!")
+	with open("scores.json","w") as f:
+		f.write(json.dumps(scores))
 
 @bot.command(help="turns your text into standard galactic alphabet from commander keen, also seen in the minecraft enchantment table!")
 async def sga(ctx,*,message):
@@ -281,6 +293,29 @@ async def divide(ctx,x:float,y:float,i:bool=False):
 		await ctx.send(str(x/y))
 	else:
 		await ctx.send(str(x//y))
+
+@bot.command(aliases=["bal","balance"])
+async def checkscore(ctx):
+	with open("scores.json","r") as f:
+		scores = json.loads(f.read())
+	if not str(ctx.author.id) in scores:
+		await ctx.send("you do not have a score yet, do !quiz to participate")
+	else:
+		await ctx.send("your score is "+str(scores[str(ctx.author.id)]["score"]))
+
+@bot.command(aliases=["leaders"],help="leaderboard for !quiz pts")
+async def leaderboard(ctx):
+	with open("scores.json","r") as f:
+		scores = json.loads(f.read())
+	score = {}
+	for k,v in scores.items():
+		score[k] = scores[k]["score"]
+	score = sorted(score.items(), key=lambda x: x[1], reverse=True)
+	msg = ""
+	for i in score:
+		msg += "<@"+i[0]+">: "+str(i[1])+"\n"
+	embed = discord.Embed(title=ctx.author.name+":",description=msg)
+	await ctx.send(embed=embed)
 
 keep_alive()
 bot.run(TOKEN)

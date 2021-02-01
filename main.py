@@ -1,37 +1,38 @@
-import discord,os,time,json,random,asyncio
+import discord,os,time,json,random,asyncio,requests
 from keepalive import keep_alive
 from discord.ext import commands
 from pretty_help import PrettyHelp
 from replit import db
 from discord.ext.commands import has_permissions
+#from qrtools import qrtools
 
 TOKEN = os.getenv("BOT_TOKEN")
 
 #invite link for bot: https://discord.com/oauth2/authorize?client_id=781009158399852557&scope=bot
 
 async def determine_prefix(client, message):
-    guild = message.guild
-    #Only allow custom prefixs in guild
-    if guild:
-        if guild.id in db:
-            print(db[guild.id])
-            return db[guild.id]
-        else:
-            return "!"
-    else:
-        return "!"
+		guild = message.guild
+		#Only allow custom prefixs in guild
+		if guild:
+				if guild.id in db:
+						print(db[guild.id])
+						return db[guild.id]
+				else:
+						return "!"
+		else:
+				return "!"
 
 bot = commands.Bot(command_prefix=determine_prefix,help_command=PrettyHelp(color=0xffff00))
 
 @bot.command()
 @has_permissions(administrator=True) 
 async def setprefix(ctx, prefix):
-    if not isinstance(ctx.channel, discord.channel.DMChannel):
-        #You'd obviously need to do some error checking here
-        #All I'm doing here is if prefixes is not passed then
-        #set it to default
-        db[ctx.guild.id] = prefix
-        await ctx.send("Prefix set!")
+		if not isinstance(ctx.channel, discord.channel.DMChannel):
+				#You'd obviously need to do some error checking here
+				#All I'm doing here is if prefixes is not passed then
+				#set it to default
+				db[ctx.guild.id] = prefix
+				await ctx.send("Prefix set!")
 
 @bot.command(help="puts spaces between the characters in <message>")
 async def space(ctx,*,message):
@@ -77,6 +78,7 @@ async def countdown(ctx,seconds : int,ping:bool=True):
 		await ctx.send("countdown done "+ctx.author.name)
 
 @bot.command()
+@commands.cooldown(1,5,commands.BucketType.user)
 async def quiz(ctx,help="tests your minecraft knowledge"):
 	with open("quiz.json","r") as f:
 		quiz = json.loads(f.read())
@@ -265,7 +267,7 @@ async def ping(ctx):
 @bot.command(aliases=["fb","suggest"],help="Send feedback to the owner of this bot! make sure to use true or false for <botsuggestion>, it specifies whether you suggestion is about this bot.")
 async def feedback(ctx,botsuggestion:bool,*,message):
 	try:
-		seamuskills = bot.get_user(382579495510605828)
+		seamuskills = await bot.get_user(382579495510605828)
 		await seamuskills.send("bot feedback:"+str(botsuggestion)+"\n"+message)
 		await ctx.send("feedback sent!✅")
 	except Exception as e:
@@ -316,6 +318,36 @@ async def leaderboard(ctx):
 		msg += "<@"+i[0]+">: "+str(i[1])+"\n"
 	embed = discord.Embed(title=ctx.author.name+":",description=msg)
 	await ctx.send(embed=embed)
+
+@bot.event
+async def on_command_error(ctx,error):
+	if isinstance(error,commands.CommandOnCooldown):
+		await ctx.send("Sorry that command is on cooldown for you, please try again later :/")
+	elif isinstance(error,commands.MissingRequiredArgument):
+		await ctx.send("Sorry but some argument is missing!")
+	elif isinstance(error,commands.MissingPermissions):
+		await ctx.send("Sorry but it looks like you don't have permission for that command.")
+	elif isinstance(error,commands.BadArgument):
+		await ctx.send("Sorry but one of the arguments is the wrong type. please do !help command for what type the arguments need to be!")
+	else:
+		if str(error) != "Command raised an exception: Forbidden: 403 Forbidden (error code: 50013): Missing Permissions":
+			await ctx.send("Uh Oh unkown error: "+str(error))
+
+@bot.command(help="read qr code",hidden=True)
+@commands.cooldown(1,30,commands.BucketType.user)
+async def readqr(ctx,url="attachment"):
+	await ctx.send("Command doesnt work atm please wait until the dev seamuskills#4492 finishes it!")
+	raise SystemError("Command Not Done!!!!!")
+	if url == "attachment":
+		attachment_url = ctx.message.attachments[0].url
+	else:
+		attachment_url = url
+	file_request = requests.get(attachment_url)
+	if file_request.status_code != 200:
+		await ctx.send("request returned "+str(file_request))
+	else:
+		data, bbox, straight_qrcode = ""
+		await ctx.send(data)
 
 keep_alive()
 bot.run(TOKEN)

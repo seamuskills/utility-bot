@@ -57,8 +57,9 @@ async def help_command(ctx,command):
 			await ctx.send(c.help)
 		except:
 			await ctx.send("no description")
-		print(vars(c))
-		await ctx.send("arguments: "+str([i for i in c.params]))
+		arglist = [i for i in c.params]
+		arglist.remove("ctx")
+		await ctx.send("arguments: "+str(arglist))
 
 @bot.command()
 @has_permissions(administrator=True) 

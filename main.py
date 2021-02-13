@@ -186,7 +186,7 @@ async def fromsga(ctx,*,sgatext):
 		sgatext = sgatext.replace(sga[letter],english[letter])
 	await ctx.send(sgatext)
 
-@bot.command(aliases = ["bw","back"],help="Returns <message> but with the position of each character opposite of its current position (in a 100 character message, character 51 because character 49) making the message return backwards")
+@bot.command(aliases = ["bw","back"],help="Returns <message> but with the position of each character opposite of its current position (in a 100 character message, character 51 becomes character 49) making the message return backwards")
 async def backward(ctx,*,message):
 	msg = message
 	newmsg = ""

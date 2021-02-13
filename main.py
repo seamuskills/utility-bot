@@ -15,14 +15,50 @@ async def determine_prefix(client, message):
 		#Only allow custom prefixs in guild
 		if guild:
 				if guild.id in db:
-						print(db[guild.id])
 						return db[guild.id]
 				else:
 						return "!"
 		else:
 				return "!"
 
-bot = commands.Bot(command_prefix=determine_prefix,help_command=PrettyHelp(color=0xffff00))
+bot = commands.Bot(command_prefix=determine_prefix)
+
+bot.remove_command("help")
+
+@bot.command()
+async def help(ctx,page:int=1):
+	commands = []
+	for i in bot.walk_commands():
+		commands.append(i.aliases)
+		commands[-1].append(i.name)
+	pagelist = commands[(page-1)*10:(page-1)*10+10]
+	message = ""
+	for i in pagelist:
+		message += "<"
+		for h in i:
+			message+=h+", "
+		message += ">, "
+	message += "do "+await determine_prefix(bot,ctx.message)+"help <page> to go to a specific page!"
+	await ctx.send("page "+str(page)+" out of "+str(len(commands)//10)+"\n"+str(message))
+	await ctx.send("do help_command <command> in order to get help on a specific commands.")
+
+@bot.command(help="Helps you with <command>")
+async def help_command(ctx,command):
+	c = None
+	for i in bot.commands:
+		if command == i.name or command in i.aliases:
+			c = i
+			break
+	if c == None:
+		await ctx.send("command not found.")
+	else:
+		await ctx.send(c.name)
+		try:
+			await ctx.send(c.help)
+		except:
+			await ctx.send("no description")
+		print(vars(c))
+		await ctx.send("arguments: "+str([i for i in c.params]))
 
 @bot.command()
 @has_permissions(administrator=True) 
@@ -101,7 +137,8 @@ async def quiz(ctx,help="tests your minecraft knowledge"):
 	while user != ctx.author and times < 3:
 		reaction, user = await bot.wait_for('reaction_add', timeout=120.0)
 		print(reaction)
-		times += 1
+		if user == ctx.author:
+			times += 1
 	if user == ctx.author:
 		reaction = str(reaction)
 		if reaction == "🇦": a = 0
@@ -218,7 +255,7 @@ async def sarcasm(ctx,*,message):
 			newmsg += message[i].lower()
 		else:
 			newmsg += message[i].upper()
-	await ctx.send(newmsg)
+	await ctx.send(ctx.author.name+":\n"+newmsg)
 	await ctx.message.delete()
 
 @bot.command(help="puts 3 ` around your text")
@@ -267,7 +304,7 @@ async def ping(ctx):
 @bot.command(aliases=["fb","suggest"],help="Send feedback to the owner of this bot! make sure to use true or false for <botsuggestion>, it specifies whether you suggestion is about this bot.")
 async def feedback(ctx,botsuggestion:bool,*,message):
 	try:
-		seamuskills = await bot.get_user(382579495510605828)
+		seamuskills = await bot.fetch_user(382579495510605828)
 		await seamuskills.send("bot feedback:"+str(botsuggestion)+"\n"+message)
 		await ctx.send("feedback sent!✅")
 	except Exception as e:

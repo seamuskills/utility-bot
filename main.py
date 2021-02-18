@@ -293,6 +293,8 @@ async def emoji(ctx,*,message):
 				newmsg += ":question:"
 		elif i == ".":
 			newmsg += ":blue_circle:"
+		elif i == " ":
+			newmsg += "🟦"
 		else:
 			newmsg += i
 	await ctx.send(newmsg)
@@ -303,13 +305,10 @@ async def ping(ctx):
 	await ctx.send("pong at "+str(time.time())+" with "+str(round(bot.latency*1000,2))+"ms ping")
 
 @bot.command(aliases=["fb","suggest"],help="Send feedback to the owner of this bot! make sure to use true or false for <botsuggestion>, it specifies whether you suggestion is about this bot.")
-async def feedback(ctx,botsuggestion:bool,*,message):
-	try:
-		seamuskills = await bot.fetch_user(382579495510605828)
-		await seamuskills.send("bot feedback:"+str(botsuggestion)+"\n"+message)
-		await ctx.send("feedback sent!✅")
-	except Exception as e:
-		await ctx.send("something went wrong:\n```"+str(e)+"```")
+async def feedback(ctx,*,message):
+	seamuskills = await bot.fetch_user(382579495510605828)
+	await seamuskills.send(message+"\nfeedback by "+ctx.author.name+" from the "+ctx.guild.name+" guild")
+	await ctx.send("feedback sent!✅")
 
 @bot.command(aliases=["s2d"],help="info about spla2d")
 async def spla2d(ctx):
@@ -317,7 +316,7 @@ async def spla2d(ctx):
 
 @bot.command(aliases=["info"],help="info on the bot")
 async def botinfo(ctx):
-	await ctx.send("bot github:https://github.com/seamuskills/utility-bot\nbot invite:https://discord.com/oauth2/authorize?client_id=781009158399852557&scope=bot\n it is reccomended that you give the bot manage message permissions so commands like !space only show the result and not the original message\ncode(repl):https://repl.it/@SeamusDonahue/utility-bot#main.py")
+	await ctx.send("bot github:https://github.com/seamuskills/utility-bot\nbot invite:https://discord.com/oauth2/authorize?client_id=781009158399852557&scope=bot\n it is reccomended that you give the bot manage message permissions so commands like !space only show the result and not the original message\ncode(repl):https://repl.it/@SeamusDonahue/utility-bot#main.py\nthanks to SnowCoder for the custom prefix code")
 
 @bot.command(aliases=["squareRoot","square_root"],help="square root of x using y (optional) as the power")
 async def sqrt(ctx,x:float,y:float=2):
@@ -353,7 +352,8 @@ async def leaderboard(ctx):
 	score = sorted(score.items(), key=lambda x: x[1], reverse=True)
 	msg = ""
 	for i in score:
-		msg += "<@"+i[0]+">: "+str(i[1])+"\n"
+		user = await bot.fetch_user(int(i[0]))
+		msg += user.name+": "+str(i[1])+"\n"
 	embed = discord.Embed(title=ctx.author.name+":",description=msg)
 	await ctx.send(embed=embed)
 

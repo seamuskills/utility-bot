@@ -17,5 +17,7 @@
 	"how long (on java) does obsidian take to break?":{"A: 10 seconds":true,"B: 8 seconds":false,"C: 12 seconds":false,"D: 5 seconds":false},
 	"In the old versions of bedrock, there was nether items but portals didn't exist. What replaced it?":{"A: Nether items were not obtainable in survival":false,"Through a 'nether reactor core'":true,"Nether portals always existed dummy!":false,"an alternate portal to the one we know today":false},
 	"in bedrock edition, how are sheilds used?":{"A: shields don't exist in bedrock":false,"B: sneaking":true,"C:Shields are automatic":false,"D: idk (dont pick this)":false},
-	"In minecraft 1.16 what did the old nether biome get renamed to?":{"A: its still called 'hell'":false,"B: it was removed":false,"C:'nether wastelands'":false,"D: 'nether wastes'":true}
+	"In minecraft 1.16 what did the old nether biome get renamed to?":{"A: its still called 'hell'":false,"B: it was removed":false,"C:'nether wastelands'":false,"D: 'nether wastes'":true},
+	"end crystals can be placed on: ":{"natural materials (grass, stone etc)":false,"obsidian":true,"bedrock":true,"endstone":false},
+	"What version added the cooldown for combat?":{"1.9":true,"1.10":false,"1.8":false,"1.12":false}
 }

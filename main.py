@@ -1,7 +1,6 @@
 import discord,os,time,json,random,asyncio,requests
 from keepalive import keep_alive
 from discord.ext import commands
-from pretty_help import PrettyHelp
 from replit import db
 from discord.ext.commands import has_permissions
 #from qrtools import qrtools
@@ -29,8 +28,9 @@ bot.remove_command("help")
 async def help(ctx,page:int=1):
 	commands = []
 	for i in bot.walk_commands():
-		commands.append(i.aliases)
-		commands[-1].append(i.name)
+		if i.hidden == False:
+			commands.append(i.aliases)
+			commands[-1].append(i.name)
 	pagelist = commands[(page-1)*10:(page-1)*10+10]
 	message = ""
 	for i in pagelist:
@@ -333,6 +333,10 @@ async def divide(ctx,x:float,y:float,i:bool=False):
 	else:
 		await ctx.send(str(x//y))
 
+@bot.command(aliases=["modulo"],help="returns the remainder of x/y")
+async def mod(ctx,x:int,y:int=2):
+	await ctx.send(str(x%y))
+
 @bot.command(aliases=["bal","balance"])
 async def checkscore(ctx):
 	with open("scores.json","r") as f:
@@ -371,21 +375,16 @@ async def on_command_error(ctx,error):
 		if str(error) != "Command raised an exception: Forbidden: 403 Forbidden (error code: 50013): Missing Permissions":
 			await ctx.send("Uh Oh unkown error: "+str(error))
 
-@bot.command(help="read qr code",hidden=True)
-@commands.cooldown(1,30,commands.BucketType.user)
-async def readqr(ctx,url="attachment"):
-	await ctx.send("Command doesnt work atm please wait until the dev seamuskills#4492 finishes it!")
-	raise SystemError("Command Not Done!!!!!")
-	if url == "attachment":
-		attachment_url = ctx.message.attachments[0].url
+@bot.command(help="p o r t a l")
+async def portal(ctx):
+	await ctx.send("🟦<:zwacc_1_0:808831513436356620>                              <:zwacc_0_0:808831513473974275>🟧\n🟦<:zwacc_1_1:808831513818824714>                              <:zwacc_0_1:808831513877544970>🟧")
+
+@bot.event
+async def on_message(message):
+	if message.content == "<@!"+str(bot.user.id)+">":
+		await message.channel.send("prefix for this guild is '"+await determine_prefix(bot,message)+"'")
 	else:
-		attachment_url = url
-	file_request = requests.get(attachment_url)
-	if file_request.status_code != 200:
-		await ctx.send("request returned "+str(file_request))
-	else:
-		data, bbox, straight_qrcode = ""
-		await ctx.send(data)
+		await bot.process_commands(message)
 
 keep_alive()
 bot.run(TOKEN)

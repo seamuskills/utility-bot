@@ -1,4 +1,12 @@
-9
+10
+###
+1.5.1
+-added
+	-prefix on mention
+	-portal
+	-fixed bugs
+-notes
+	-p o r t a l don't question it....
 ###
 1.5.0
 -added

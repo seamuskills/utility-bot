@@ -1,4 +1,4 @@
-import discord,os,time,json,random,asyncio,requests
+import discord,os,time,json,random,asyncio
 from keepalive import keep_alive
 from discord.ext import commands
 from replit import db
@@ -95,8 +95,11 @@ async def nya(ctx,help="nya"):
 	await ctx.message.delete()
 
 @bot.command(aliases=["rickroll","roll"],help="Never gonna give you up!")
-async def rick(ctx):
-	await ctx.send(ctx.author.name+":\nhttps://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstleyVEVO")
+async def rick(ctx,hidden:bool=True):
+	if hidden:
+		await ctx.send(ctx.author.name+":\n<https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstleyVEVO>")
+	else:
+		await ctx.send(ctx.author.name+":\nhttps://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstleyVEVO")
 	await ctx.message.delete()
 
 @bot.command(aliases=["ct"],help="started a countdown for arg1 seconds and pings you if arg2 is true (default value is true)")
@@ -384,12 +387,22 @@ async def portal(ctx):
 		await asyncio.sleep(1)
 	await message.edit(content=frames[0])
 
+@bot.command(help="Converts string argument into a series of unicode codes")
+async def ucodes(ctx,*,args):
+	await ctx.send(ctx.message.author.name+":\n"+" ".join([str(ord(i)) for i in args]))
+	await ctx.message.delete()
+
 @bot.event
 async def on_message(message):
 	if message.content == "<@!"+str(bot.user.id)+">":
 		await message.channel.send("prefix for this guild is '"+await determine_prefix(bot,message)+"'")
 	else:
 		await bot.process_commands(message)
+
+@bot.event
+async def on_ready():
+	print("ready")
+	await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching,name="ping for current prefix, <prefix>help for commands",details="<prefix>help_command for specific help"))
 
 keep_alive()
 bot.run(TOKEN)

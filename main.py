@@ -387,8 +387,8 @@ async def portal(ctx):
 		await asyncio.sleep(1)
 	await message.edit(content=frames[0])
 
-@bot.command(help="Converts string argument into a series of unicode codes")
-async def ucodes(ctx,*,args):
+@bot.command(help="Converts string argument into a series of ascii codes")
+async def asciicodes(ctx,*,args):
 	await ctx.send(ctx.message.author.name+":\n"+" ".join([str(ord(i)) for i in args]))
 	await ctx.message.delete()
 
